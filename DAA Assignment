@@ -1,0 +1,293 @@
+704 : Binary Search
+
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        return -1;
+    }
+}
+
+
+35 :  Search Insert Position 
+
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            
+            if (nums[mid] == target) {
+                return mid; 
+            } else if (nums[mid] < target) {
+                left = mid + 1; 
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        return left; 
+    }
+}
+
+
+74 : Search a 2D Matrix
+
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        
+        int left = 0, right = m * n - 1;
+        
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int midValue = matrix[mid / n][mid % n]; 
+            
+            if (midValue == target) {
+                return true;
+            } else if (midValue < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        return false;
+    }
+}
+
+162  : Find Peak Element
+
+
+class Solution {
+    public int findPeakElement(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            
+            if (nums[mid] > nums[mid + 1]) {
+               
+                right = mid;
+            } else {
+                
+                left = mid + 1;
+            }
+        }
+        
+        return left; 
+    }
+}
+
+
+33 – Search in Rotated Sorted Array
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            
+            if (nums[mid] == target) {
+                return mid; 
+            }
+            
+            
+            if (nums[left] <= nums[mid]) { 
+                
+                if (nums[left] <= target && target < nums[mid]) {
+                    right = mid - 1; 
+                } else {
+                    left = mid + 1; 
+                }
+            } else {
+                
+                if (nums[mid] < target && target <= nums[right]) {
+                    left = mid + 1; 
+                } else {
+                    right = mid - 1; 
+                }
+            }
+        }
+        
+        return -1;
+    }
+}
+
+
+162 – Find Peak Element
+
+
+class Solution {
+    public int findPeakElement(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            
+            if (nums[mid] > nums[mid + 1]) {
+               
+                right = mid;
+            } else {
+                
+                left = mid + 1;
+            }
+        }
+        
+        return left; 
+    }
+}
+
+
+88 – Merge Sorted Array
+
+  class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i = m - 1;      
+        int j = n - 1;    
+        int k = m + n - 1;   
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k--] = nums1[i--];
+            } else {
+                nums1[k--] = nums2[j--];
+            }
+        }
+        
+
+        while (j >= 0) {
+            nums1[k--] = nums2[j--];
+        }
+    }
+}
+
+912 – Sort an Array
+
+class Solution {
+    public int[] sortArray(int[] nums) {
+        mergeSort(nums, 0, nums.length - 1);
+        return nums;
+    }
+    
+    private void mergeSort(int[] nums, int left, int right) {
+        if (left >= right) return;
+        
+        int mid = left + (right - left) / 2;
+        mergeSort(nums, left, mid);
+        mergeSort(nums, mid + 1, right);
+        merge(nums, left, mid, right);
+    }
+    
+    private void merge(int[] nums, int left, int mid, int right) {
+        int[] temp = new int[right - left + 1];
+        int i = left, j = mid + 1, k = 0;
+        
+        while (i <= mid && j <= right) {
+            if (nums[i] <= nums[j]) {
+                temp[k++] = nums[i++];
+            } else {
+                temp[k++] = nums[j++];
+            }
+        }
+        
+        while (i <= mid) temp[k++] = nums[i++];
+        while (j <= right) temp[k++] = nums[j++];
+        
+        for (int p = 0; p < temp.length; p++) {
+            nums[left + p] = temp[p];
+        }
+    }
+}
+
+
+215 – Kth Largest Element in an Array
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        return quickSelect(nums, 0, nums.length - 1, nums.length - k);
+    }
+
+    private int quickSelect(int[] nums, int left, int right, int k) {
+        int pivot = nums[right], p = left;
+        for (int i = left; i < right; i++) {
+            if (nums[i] <= pivot) {
+                swap(nums, i, p++);
+            }
+        }
+        swap(nums, p, right);
+
+        if (p == k) return nums[p];
+        else if (p < k) return quickSelect(nums, p + 1, right, k);
+        else return quickSelect(nums, left, p - 1, k);
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i]; nums[i] = nums[j]; nums[j] = tmp;
+    }
+}
+
+
+
+53 – Maximum Subarray
+
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int maxSoFar = nums[0];
+        int currentSum = nums[0];
+        
+        for (int i = 1; i < nums.length; i++) {
+            currentSum = Math.max(nums[i], currentSum + nums[i]);
+            maxSoFar = Math.max(maxSoFar, currentSum);
+        }
+        
+        return maxSoFar;
+    }
+}
+
+
+
+
+4 – Median of Two Sorted Arrays
+
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int m = nums1.length, n = nums2.length;
+        int[] merged = new int[m + n];
+        int i = 0, j = 0, k = 0;
+        while (i < m && j < n) {
+            if (nums1[i] <= nums2[j]) {
+                merged[k++] = nums1[i++];
+            } else {
+                merged[k++] = nums2[j++];
+            }
+        }
+        
+        while (i < m) merged[k++] = nums1[i++];
+        while (j < n) merged[k++] = nums2[j++];
+        int total = m + n;
+        if (total % 2 == 1) {
+            return merged[total / 2]; 
+        } else {
+            return (merged[total / 2 - 1] + merged[total / 2]) / 2.0; 
+        }
+    }
+}
+
+
